@@ -2,17 +2,18 @@ import csv
 import json
 import os
 import tempfile
+from typing import Generator, List
 
 import pytest
 
-from app.models import PositionStats
+from app.models import EmployeesData, PositionStats
 
 # Базовые тестовые данные
 TEST_EMPLOYEE_DATA = [
-    {"name": "Alex", "position": "Developer", "performance": "4.5"},
-    {"name": "Maria", "position": "QA", "performance": "4.8"},
-    {"name": "John", "position": "Developer", "performance": "5.0"},
-    {"name": "Anna", "position": "QA", "performance": "4.2"},
+    EmployeesData(name="Alex", position="Developer", performance=4.5),
+    EmployeesData(name="Maria", position="QA", performance=4.8),
+    EmployeesData(name="John", position="Developer", performance=5.0),
+    EmployeesData(name="Anna", position="QA", performance=4.2),
 ]
 
 TEST_STATS_DATA = [
@@ -22,23 +23,23 @@ TEST_STATS_DATA = [
 
 
 @pytest.fixture
-def sample_employees():
+def sample_employees() -> List[EmployeesData]:
     """Тестовые сотрудники (словари)"""
     return [
-        {"position": "Developer", "performance": "4.5"},
-        {"position": "Developer", "performance": "5.0"},
-        {"position": "QA", "performance": "4.0"},
+        EmployeesData(name="Alex", position="Developer", performance=4.5),
+        EmployeesData(name="John", position="Developer", performance=5.0),
+        EmployeesData(name="Anna", position="QA", performance=4.2),
     ]
 
 
 @pytest.fixture
-def sample_stats():
+def sample_stats() -> List[PositionStats]:
     """Тестовые данные со статистикой"""
     return TEST_STATS_DATA.copy()
 
 
 @pytest.fixture
-def temp_csv_file():
+def temp_csv_file() -> str:
     """Временный CSV файл"""
     return _create_temp_file(
         data=TEST_EMPLOYEE_DATA[:2], format_type="csv"  # берем первых двух сотрудников
@@ -46,7 +47,7 @@ def temp_csv_file():
 
 
 @pytest.fixture
-def temp_json_file():
+def temp_json_file() -> str:
     """Временный JSON файл"""
     return _create_temp_file(
         data=TEST_EMPLOYEE_DATA[:2], format_type="json"  # берем первых двух сотрудников
@@ -54,16 +55,16 @@ def temp_json_file():
 
 
 @pytest.fixture
-def multiple_temp_file():
+def multiple_temp_file() -> Generator[List[str], None, None]:
     """Несколько временных файлов с разными данными"""
     files = []
     try:
         # Первый -Developers
-        dev_data = [emp for emp in TEST_EMPLOYEE_DATA if emp["position"] == "Developer"]
+        dev_data = [emp for emp in TEST_EMPLOYEE_DATA if emp.position == "Developer"]
         files.append(_create_temp_file(dev_data, "csv", suffix="_dev"))
 
         # Второй -Developers
-        qa_data = [emp for emp in TEST_EMPLOYEE_DATA if emp["position"] == "QA"]
+        qa_data = [emp for emp in TEST_EMPLOYEE_DATA if emp.position == "QA"]
         files.append(_create_temp_file(qa_data, "csv", suffix="_qa"))
 
         yield files
@@ -76,7 +77,7 @@ def multiple_temp_file():
 
 
 @pytest.fixture
-def temp_csv_invalid_data():
+def temp_csv_invalid_data() -> str:
     """CSV с некорректными данными"""
     return _create_temp_file(
         data=[{"name": "Alex", "position": "Developer", "performance": "invalid"}],
@@ -85,7 +86,8 @@ def temp_csv_invalid_data():
     )
 
 
-def invalid_structure_csv():
+@pytest.fixture
+def invalid_structure_csv() -> Generator[str, None, None]:
     """CSV с неправильной структурой"""
     with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
         writer = csv.writer(f)
@@ -98,23 +100,39 @@ def invalid_structure_csv():
         os.unlink(temp_path)
 
 
-def _create_temp_file(data, format_type, suffix=""):
+def _create_temp_file(data: List, format_type: str, suffix: str = "") -> str:
     """Функция для создания временных файлов"""
     with tempfile.NamedTemporaryFile(
         mode="w", suffix=f"{suffix}.{format_type}", delete=False
     ) as f:
         if format_type == "csv":
             writer = csv.writer(f)
-            if data and isinstance(data[0], dict):
+            if data:
                 # Записываем заголовки
                 writer.writerow(["name", "position", "performance"])
                 # Записываем данные
                 for item in data:
-                    writer.writerow(
-                        [item["name"], item["position"], item["performance"]]
-                    )
+                    if isinstance(item, EmployeesData):
+                        writer.writerow(
+                            [item.name, item.position, str(item.performance)]
+                        )
+                    else:
+                        writer.writerow(
+                            [item["name"], item["position"], item["performance"]]
+                        )
         elif format_type == "json":
-            json.dump(data, f)
+            if data and isinstance(data[0], EmployeesData):
+                json_data = [
+                    {
+                        "name": emp.name,
+                        "position": emp.position,
+                        "performance": str(emp.performance),
+                    }
+                    for emp in data
+                ]
+                json.dump(json_data, f)
+            else:
+                json.dump(data, f)
 
     temp_path = f.name
     return temp_path

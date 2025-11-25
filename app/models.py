@@ -1,13 +1,23 @@
 from dataclasses import dataclass
-from typing import Any, Dict, TypedDict
+from typing import Any, Dict
 
 
-class EmployeesData(TypedDict):
-    """Типизированный словарь для сотрудников"""
+@dataclass
+class EmployeesData:
+    """DTO для дынных сотрудника"""
 
     name: str
     position: str
-    performance: str
+    performance: float
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, str]) -> "EmployeesData":
+        """Объект словаря с преобразованием типов"""
+        return cls(
+            name=data["name"],
+            position=data["position"],
+            performance=float(data["performance"]),
+        )
 
 
 @dataclass

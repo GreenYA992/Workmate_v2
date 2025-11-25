@@ -26,8 +26,7 @@ class EmployeeAnalyzer:
         position_data = defaultdict(list)
 
         for emp in employees:
-            performance = float(emp["performance"])
-            position_data[emp["position"]].append(performance)
+            position_data[emp.position].append(emp.performance)
 
         stats = []
         for position, performance in position_data.items():

@@ -11,7 +11,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, current_dir)
 
 
-def main():
+def main() -> None:
     """Основная функция Cli"""
     parser = argparse.ArgumentParser(description="Анализ рейтинга по позициям")
     parser.add_argument("--files", nargs="+", required=True, help="файлы для анализа")

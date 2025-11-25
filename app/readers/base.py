@@ -15,16 +15,18 @@ class DataReader(ABC):
         pass
 
     @classmethod
-    def registry_reader(cls, format_name: str, reader_class: Type["DataReader"]):
+    def registry_reader(
+        cls, format_name: str, reader_class: Type["DataReader"]
+    ) -> None:
         """Регистрируем ридер для формата"""
         cls._readers[format_name] = reader_class
 
     @classmethod
     def create_reader(cls, file_path: str) -> "DataReader":
         """Метод для создания ридера"""
-        file = file_path.lower().split(".")[-1]
+        file_ext = file_path.lower().split(".")[-1]
 
-        if file not in cls._readers:
-            raise ValueError(f"Неправильный формат файла {file}")
+        if file_ext not in cls._readers:
+            raise ValueError(f"Неправильный формат файла {file_ext}")
 
-        return cls._readers[file]()
+        return cls._readers[file_ext]()

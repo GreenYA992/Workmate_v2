@@ -1,3 +1,5 @@
+from typing import List
+
 import pytest
 
 from app.analyzers.employee_analyzer import EmployeeAnalyzer
@@ -7,7 +9,9 @@ from app.reports.console_report import ConsoleReport
 class TestIntegration:
     """Интеграционные тесты"""
 
-    def test_workflow(self, capsys, multiple_temp_file):
+    def test_workflow(
+        self, capsys: pytest.CaptureFixture, multiple_temp_file: List[str]
+    ) -> None:
         """Тест полного workflow"""
 
         emp = EmployeeAnalyzer.combine_files(multiple_temp_file)
@@ -28,10 +32,7 @@ class TestIntegration:
 class TestIntegrationErrors:
     """Интеграционный тест с ошибками"""
 
-    def test_workflow_with_invalid_data(self, temp_csv_invalid_data):
+    def test_workflow_with_invalid_data(self, temp_csv_invalid_data: str) -> None:
         """Тест workflow с некорректными данными"""
-
-        emp = EmployeeAnalyzer.combine_files([temp_csv_invalid_data])
-
-        with pytest.raises(ValueError):
-            EmployeeAnalyzer.calculate_statistics(emp)
+        with pytest.raises(ValueError, match="could not convert string to float"):
+            emp = EmployeeAnalyzer.combine_files([temp_csv_invalid_data])
