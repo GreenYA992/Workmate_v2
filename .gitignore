@@ -4,6 +4,12 @@ __pycache__/
 *$py.class
 *.pyc
 
+#Тесты
+.coverage
+.pytest_cache/
+htmlcov/
+.coverage.*
+
 # Распределение пакетов
 build/
 dist/
