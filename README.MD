@@ -14,7 +14,7 @@ pip install -r requirements.txt
 
 -- Командная строка (из директории app)
 ```bash
-python parser.py --files ../data_folder/employees1.csv ../data_folder/employees2.csv --report performance
+python cli.py --files ../data_folder/employees1.csv ../data_folder/employees2.csv --report performance
 
 ```
 
@@ -30,7 +30,7 @@ python parser.py --files ../data_folder/employees1.csv ../data_folder/employees2
 В список files можно прописать пути к файлам, для обработки
 
 ```bash
-python main.py
+python run_script.py
 
 ```
 
