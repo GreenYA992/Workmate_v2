@@ -3,9 +3,9 @@
 import csv
 import os
 import tempfile
-from analyzers.employee_analyzer import EmployeeAnalyzer
 
 import pytest
+from analyzers.employee_analyzer import EmployeeAnalyzer
 
 
 class TestEmpAnalyzer:

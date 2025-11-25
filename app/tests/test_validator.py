@@ -3,9 +3,9 @@
 import argparse
 import os
 import tempfile
-from validators.file_validator import FileValidator
 
 import pytest
+from validators.file_validator import FileValidator
 
 
 class TestValidator:

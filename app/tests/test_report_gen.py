@@ -1,7 +1,7 @@
 """Тест для модуля ReportGen"""
 
-from reports.console_report import ConsoleReport, TableReport
 from models import PositionStats
+from reports.console_report import ConsoleReport, TableReport
 
 
 class TestReportGen:
@@ -10,8 +10,8 @@ class TestReportGen:
     def test_report_output(self, capsys):
         """Тест вывода отчета performance"""
         stats = [
-            PositionStats(position='Developer', avg_performance=4.75, employee_count=2),
-            PositionStats(position='QA', avg_performance=4.1, employee_count=1),
+            PositionStats(position="Developer", avg_performance=4.75, employee_count=2),
+            PositionStats(position="QA", avg_performance=4.1, employee_count=1),
         ]
         report = ConsoleReport()
         report.generate(stats)
@@ -29,7 +29,7 @@ class TestReportGen:
     def test_table_report(self, capsys):
         """Тест табличного отчета"""
         stats = [
-            PositionStats(position='Developer', avg_performance=4.75, employee_count=2),
+            PositionStats(position="Developer", avg_performance=4.75, employee_count=2),
         ]
 
         report = TableReport()

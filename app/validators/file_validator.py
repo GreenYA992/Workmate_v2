@@ -1,6 +1,7 @@
-import os
 import argparse
+import os
 from typing import List
+
 
 class FileValidator:
     """Класс для валидации данных"""

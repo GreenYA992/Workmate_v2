@@ -1,10 +1,13 @@
 from collections import defaultdict
 from typing import List
+
 from models import EmployeesData, PositionStats
 from readers.base import DataReader
 
+
 class EmployeeAnalyzer:
     """Анализатор сотрудников"""
+
     @staticmethod
     def combine_files(file_paths: List[str]) -> List[EmployeesData]:
         """Объединяем файлы из нескольких файлов"""
@@ -23,17 +26,17 @@ class EmployeeAnalyzer:
         position_data = defaultdict(list)
 
         for emp in employees:
-            performance = float(emp['performance'])
-            position_data[emp['position']].append(performance)
+            performance = float(emp["performance"])
+            position_data[emp["position"]].append(performance)
 
         stats = []
         for position, performance in position_data.items():
             avg_performance = sum(performance) / len(performance)
             stats.append(
                 PositionStats(
-                    position = position,
-                    avg_performance = avg_performance,
-                    employee_count = len(performance),
+                    position=position,
+                    avg_performance=avg_performance,
+                    employee_count=len(performance),
                 )
             )
         return sorted(stats, key=lambda x: x.avg_performance, reverse=True)

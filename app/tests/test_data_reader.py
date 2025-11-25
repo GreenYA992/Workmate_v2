@@ -3,11 +3,10 @@
 import csv
 import os
 import tempfile
-from readers.base import DataReader
-from readers.csv_reader import CsvReader
-
 
 import pytest
+from readers.base import DataReader
+from readers.csv_reader import CsvReader
 
 
 class TestDataReader:

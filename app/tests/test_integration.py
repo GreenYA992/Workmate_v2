@@ -3,10 +3,10 @@
 import csv
 import os
 import tempfile
-from analyzers.employee_analyzer import EmployeeAnalyzer
-from reports.console_report import ConsoleReport
 
 import pytest
+from analyzers.employee_analyzer import EmployeeAnalyzer
+from reports.console_report import ConsoleReport
 
 
 class TestIntegration:
