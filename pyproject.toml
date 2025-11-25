@@ -16,7 +16,7 @@ dependencies = [
 ]
 
 [project.scripts]
-workmate = 'workmate   ??????????      '
+workmate = 'workmate.cli:main'
 
 [tool.black]
 line-length = 88
