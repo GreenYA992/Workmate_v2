@@ -3,12 +3,14 @@
 import argparse
 
 import pytest
+
 from app.validators.file_validator import FileValidator
+
 
 class TestValidator:
     """Тесты для класса Validator"""
 
-    def test_validate_file_paths_all_valid(self, temp_csv_file,temp_json_file):
+    def test_validate_file_paths_all_valid(self, temp_csv_file, temp_json_file):
         """Тест когда все файлы корректные"""
 
         files = [temp_csv_file, temp_json_file]
@@ -18,7 +20,6 @@ class TestValidator:
         assert temp_csv_file in res
         assert temp_json_file in res
 
-
     def test_validate_file_paths_mixed(self, temp_csv_file):
         """Тест когда часть файлов не корректна"""
 
@@ -27,10 +28,9 @@ class TestValidator:
         assert res == [temp_csv_file]
         assert len(res) == 1
 
-
     def test_validate_file_paths_all_invalid(self):
         """Тест когда все файлы не корректные"""
-        files = ["nonexistent.csv", "file.txt", 'img.png']
+        files = ["nonexistent.csv", "file.txt", "img.png"]
         with pytest.raises(argparse.ArgumentTypeError):
             FileValidator.validate_file_path(files)
 

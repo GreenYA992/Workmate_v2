@@ -1,14 +1,13 @@
 """Тесты для модуля DataReader"""
 
-import csv
 import os
 import tempfile
 
 import pytest
+
 from app.readers.base import DataReader
 from app.readers.csv_reader import CsvReader
 from app.readers.json_reader import JsonReader
-from tests.conftest import invalid_structure_csv
 
 
 class TestDataReader:
@@ -51,11 +50,12 @@ class TestDataReader:
         with pytest.raises(ValueError):
             DataReader.create_reader("file.txt")
 
+
 class TestDataReaderErrors:
     """Тесты на обработку ошибок"""
 
     @pytest.fixture
-    def test_read_csv_invalid_structure(self, invalid_structure_csv): # noqa
+    def test_read_csv_invalid_structure(self, invalid_structure_csv):  # noqa
         """Тест чтение CSV с неправильной структурой"""
 
         reader = CsvReader()
@@ -69,7 +69,6 @@ class TestDataReaderErrors:
         assert "position" not in res[0]
         assert "performance" not in res[0]
         assert "name" not in res[0]
-
 
     def test_read_csv_empty_file(self):
         """Тест чтение пустого CSV"""

@@ -1,6 +1,8 @@
 import pytest
+
 from app.analyzers.employee_analyzer import EmployeeAnalyzer
 from app.reports.console_report import ConsoleReport
+
 
 class TestIntegration:
     """Интеграционные тесты"""
@@ -21,6 +23,7 @@ class TestIntegration:
         assert "QA" in output
         assert "4.75" in output
         assert "4.5" in output
+
 
 class TestIntegrationErrors:
     """Интеграционный тест с ошибками"""

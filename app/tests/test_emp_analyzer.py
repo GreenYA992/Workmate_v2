@@ -1,8 +1,9 @@
 """Тесты для модуля EmpAnalyzer"""
 
 import pytest
-from app.analyzers.employee_analyzer import EmployeeAnalyzer
 from tests.conftest import sample_employees
+
+from app.analyzers.employee_analyzer import EmployeeAnalyzer
 
 
 class TestEmpAnalyzer:
@@ -28,7 +29,7 @@ class TestEmpAnalyzer:
     def test_calc_single_emp(self):
         """Тест с одним сотрудником"""
         emp = [{"position": "Developer", "performance": "4.5"}]
-        res = EmployeeAnalyzer.calculate_statistics(emp) # noqa
+        res = EmployeeAnalyzer.calculate_statistics(emp)  # noqa
 
         assert len(res) == 1
         assert res[0].avg_performance == 4.5
@@ -57,6 +58,7 @@ class TestEmpAnalyzer:
         assert "5.0" in performances
         assert "4.2" in performances
 
+
 class TestEmpAnalyzerErrors:
     """Тест обработки ошибок EmpAnalyzer"""
 
@@ -71,8 +73,8 @@ class TestEmpAnalyzerErrors:
         """Тест с отсутствием ключевых данных"""
         emp = [
             {"name": "Alex", "position": "Developer"},  # нет performance
-            {"name": "Maria", "performance": "4.5"},    # нет position
+            {"name": "Maria", "performance": "4.5"},  # нет position
         ]
 
         with pytest.raises(KeyError):
-            EmployeeAnalyzer.calculate_statistics(emp) # noqa
+            EmployeeAnalyzer.calculate_statistics(emp)  # noqa

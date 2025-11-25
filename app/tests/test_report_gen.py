@@ -1,12 +1,11 @@
 """Тест для модуля ReportGen"""
-import tempfile
-import os
-import csv
-import pytest
 
-from app.models import PositionStats
+import csv
+import os
+import tempfile
+
 from app.reports.console_report import ConsoleReport, TableReport
-from reports.csv_report import CsvReport
+from app.reports.csv_report import CsvReport
 
 
 class TestReportGen:
@@ -44,19 +43,19 @@ class TestReportGen:
     def test_csv_report_create(self, sample_stats):
         """Тест создания CSV отчета"""
         with tempfile.TemporaryDirectory() as temp_dir:
-            test_file = os.path.join(temp_dir, 'test_report.csv')
+            test_file = os.path.join(temp_dir, "test_report.csv")
             report = CsvReport(test_file)
             report.generate(sample_stats)
 
             assert os.path.exists(test_file)
 
-            with open(test_file, 'r', encoding='utf-8') as f:
+            with open(test_file, "r", encoding="utf-8") as f:
                 reader = csv.DictReader(f)
                 rows = list(reader)
 
                 assert len(rows) == 2
-                dev_row = next(row for row in rows if row['Должность'] == 'Developer')
-                assert dev_row['Рейтинг'] == '4.75'
+                dev_row = next(row for row in rows if row["Должность"] == "Developer")
+                assert dev_row["Рейтинг"] == "4.75"
 
     def test_report_empty_stats(self, capsys):
         """Тест отчета с пустой статистикой"""
