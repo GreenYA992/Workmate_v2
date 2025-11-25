@@ -5,8 +5,8 @@ import os
 import tempfile
 
 import pytest
-from analyzers.employee_analyzer import EmployeeAnalyzer
-from reports.console_report import ConsoleReport
+from app.analyzers.employee_analyzer import EmployeeAnalyzer
+from app.reports.console_report import ConsoleReport
 
 
 class TestIntegration:

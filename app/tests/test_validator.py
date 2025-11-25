@@ -5,7 +5,7 @@ import os
 import tempfile
 
 import pytest
-from validators.file_validator import FileValidator
+from app.validators.file_validator import FileValidator
 
 
 class TestValidator:

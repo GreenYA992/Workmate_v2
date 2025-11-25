@@ -5,8 +5,8 @@ import os
 import tempfile
 
 import pytest
-from readers.base import DataReader
-from readers.csv_reader import CsvReader
+from app.readers.base import DataReader
+from app.readers.csv_reader import CsvReader
 
 
 class TestDataReader:

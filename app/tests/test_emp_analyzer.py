@@ -5,7 +5,7 @@ import os
 import tempfile
 
 import pytest
-from analyzers.employee_analyzer import EmployeeAnalyzer
+from app.analyzers.employee_analyzer import EmployeeAnalyzer
 
 
 class TestEmpAnalyzer:
