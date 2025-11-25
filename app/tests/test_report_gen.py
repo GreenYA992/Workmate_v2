@@ -2,6 +2,7 @@
 import tempfile
 import os
 import csv
+import pytest
 
 from app.models import PositionStats
 from app.reports.console_report import ConsoleReport, TableReport
@@ -11,14 +12,11 @@ from reports.csv_report import CsvReport
 class TestReportGen:
     """Тестирование класса ReportGen"""
 
-    def test_report_output(self, capsys):
+    def test_report_output(self, capsys, sample_stats):
         """Тест вывода отчета performance"""
-        stats = [
-            PositionStats(position="Developer", avg_performance=4.75, employee_count=2),
-            PositionStats(position="QA", avg_performance=4.1, employee_count=1),
-        ]
+
         report = ConsoleReport()
-        report.generate(stats)
+        report.generate(sample_stats)
 
         captured = capsys.readouterr()
         output = captured.out
@@ -30,14 +28,11 @@ class TestReportGen:
         lines = output.strip().split("\n")
         assert len(lines) >= 4  # заголовок, разделитель и 2 строки
 
-    def test_table_report(self, capsys):
+    def test_table_report(self, capsys, sample_stats):
         """Тест табличного отчета"""
-        stats = [
-            PositionStats(position="Developer", avg_performance=4.75, employee_count=2),
-        ]
 
         report = TableReport()
-        report.generate(stats)
+        report.generate(sample_stats)
         captured = capsys.readouterr()
         output = captured.out
 
@@ -46,13 +41,12 @@ class TestReportGen:
         assert "Developer" in output
         assert "4.75" in output
 
-    def test_csv_report_create(self):
+    def test_csv_report_create(self, sample_stats):
         """Тест создания CSV отчета"""
-        stats = [PositionStats(position='Developer', avg_performance=4.75, employee_count=2)]
         with tempfile.TemporaryDirectory() as temp_dir:
             test_file = os.path.join(temp_dir, 'test_report.csv')
             report = CsvReport(test_file)
-            report.generate(stats)
+            report.generate(sample_stats)
 
             assert os.path.exists(test_file)
 
@@ -60,9 +54,9 @@ class TestReportGen:
                 reader = csv.DictReader(f)
                 rows = list(reader)
 
-                assert len(rows) == 1
-                assert rows[0]['Должность'] == 'Developer'
-                assert rows[0]['Рейтинг'] == '4.75'
+                assert len(rows) == 2
+                dev_row = next(row for row in rows if row['Должность'] == 'Developer')
+                assert dev_row['Рейтинг'] == '4.75'
 
     def test_report_empty_stats(self, capsys):
         """Тест отчета с пустой статистикой"""
@@ -74,4 +68,3 @@ class TestReportGen:
         # Должны быть заголовки, даже при пустых данных
         assert "position" in output
         assert "performance" in output
-
