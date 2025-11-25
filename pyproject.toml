@@ -1,0 +1,54 @@
+[build-system]
+requires=['setuptools>=45', 'wheel']
+build-backend = 'setuptool.build_meta'
+
+[project]
+name = 'workmate'
+version = '0.1.0'
+discription = 'Анализатор данных сотрудников и генератор отчетов'
+authors = [
+    {name = 'GreenYA', email = 'GreenYA992@gmail.com'}
+]
+readme = 'README.MD'
+requires-python = '>=3.13'
+dependencies = [
+    'tabulate>=0.9.0'
+]
+
+[project.scripts]
+workmate = 'workmate   ??????????      '
+
+[tool.black]
+line-length = 88
+target-version = ['py313']
+include = '\.pyi?$'
+extend-exclude = '''
+ /(
+     | \.eggs  # Игнорировать служебные папки
+     | \.git   # Игнорировать папку git
+     | \.venv  # Игнорировать виртуальное окружение
+     | build   # Игнорировать папку сборки
+     | dist    # Игнорировать папку дистрибутивов
+ )/
+ '''
+
+[tool.isort]
+profile = 'black'
+multi_line_output = 3
+line_length = 88
+
+[tool.mypy]
+python_version = '3.13.2'
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+testpaths = ['test']
+python_files = ['test_*.py']
+addopts = [
+    '--verbose',             # Подробный вывод
+    '--strict-markers',      # Строгая проверка маркеров
+    '--strict-config',       # Строгая проверка конфигурации
+]
