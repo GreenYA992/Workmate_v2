@@ -35,4 +35,4 @@ class TestIntegrationErrors:
     def test_workflow_with_invalid_data(self, temp_csv_invalid_data: str) -> None:
         """Тест workflow с некорректными данными"""
         with pytest.raises(ValueError, match="could not convert string to float"):
-            emp = EmployeeAnalyzer.combine_files([temp_csv_invalid_data])
+            EmployeeAnalyzer.combine_files([temp_csv_invalid_data])

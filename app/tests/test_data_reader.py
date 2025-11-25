@@ -57,19 +57,14 @@ class TestDataReader:
 class TestDataReaderErrors:
     """Тесты на обработку ошибок"""
 
-    @pytest.fixture
     def test_read_csv_invalid_structure(
         self, invalid_structure_csv: str
     ) -> None:  # noqa
         """Тест чтение CSV с неправильной структурой"""
 
         reader = CsvReader()
-        res = reader.read(invalid_structure_csv)
-
-        assert len(res) == 2
-        assert res[0].name == "test1@mail.ru"
-        assert res[0].position == "35"
-        assert res[0].performance == "football"
+        with pytest.raises(KeyError):
+            reader.read(invalid_structure_csv)
 
     def test_read_csv_empty_file(self) -> None:
         """Тест чтение пустого CSV"""
