@@ -5,7 +5,7 @@ build-backend = 'setuptools.build_meta'
 [project]
 name = 'workmate'
 version = '0.1.0'
-discription = 'Анализатор данных сотрудников и генератор отчетов'
+description = 'Анализатор данных сотрудников и генератор отчетов'
 authors = [
     {name = 'GreenYA', email = 'GreenYA992@gmail.com'}
 ]
@@ -13,6 +13,18 @@ readme = 'README.MD'
 requires-python = '>=3.13'
 dependencies = [
     'tabulate>=0.9.0'
+]
+
+[tool.setuptools]
+packages = ['app']
+
+[project.optional-dependencies]
+dev =[
+    'pytest>=9.0.1',
+    'black>=25.1.0',
+    'isort>=6.0.1',
+    'mypy>=1.18.2',
+    'taskipy>=1.12.0',
 ]
 
 [project.scripts]
@@ -39,3 +51,11 @@ python_version = '3.13'
 warn_return_any = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
+
+[tool.taskipy.tasks]
+lint = 'mypy . && black --check . && isort --check-only .'
+# task lint
+format = 'black . && isort .'
+# task format
+test = 'pytest'
+# task test
