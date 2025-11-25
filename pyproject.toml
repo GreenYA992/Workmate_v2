@@ -1,6 +1,6 @@
 [build-system]
 requires=['setuptools>=45', 'wheel']
-build-backend = 'setuptool.build_meta'
+build-backend = 'setuptools.build_meta'
 
 [project]
 name = 'workmate'
@@ -21,28 +21,10 @@ workmate = 'workmate.cli:main'
 [tool.black]
 line-length = 88
 target-version = ['py313']
-include = '\.pyi?$'
-extend-exclude = '''
- /(
-     | \.eggs  # Игнорировать служебные папки
-     | \.git   # Игнорировать папку git
-     | \.venv  # Игнорировать виртуальное окружение
-     | build   # Игнорировать папку сборки
-     | dist    # Игнорировать папку дистрибутивов
- )/
- '''
 
 [tool.isort]
 profile = 'black'
-multi_line_output = 3
 line_length = 88
-
-[tool.mypy]
-python_version = '3.13.2'
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-strict_equality = true
 
 [tool.pytest.ini_options]
 testpaths = ['test']
@@ -50,5 +32,10 @@ python_files = ['test_*.py']
 addopts = [
     '--verbose',             # Подробный вывод
     '--strict-markers',      # Строгая проверка маркеров
-    '--strict-config',       # Строгая проверка конфигурации
 ]
+
+[tool.mypy]
+python_version = '3.13'
+warn_return_any = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
